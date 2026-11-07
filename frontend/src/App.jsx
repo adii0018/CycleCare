@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import { AppRoutes } from './routes/AppRoutes';
 import { useWarmup } from './hooks/useWarmup';
 import CycleCarePreloader from './components/common/CycleCarePreloader';
+import PwaInstallPrompt from './components/common/PwaInstallPrompt';
 
 export default function App() {
   const { ready } = useWarmup();
@@ -36,6 +37,9 @@ export default function App() {
             >
               <AppRoutes />
             </motion.div>
+
+            {/* Mobile PWA Install Prompt Banner */}
+            <PwaInstallPrompt />
 
             <Toaster
               position="top-center"
