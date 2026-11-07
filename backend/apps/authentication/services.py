@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 DUMMY_PASSWORD_HASH = (
     "pbkdf2_sha256$720000$dummy_salt$dummy_hash_for_constant_time_comparison_1234567890="
 )
-ADMIN_PASSWORD_MIN_LENGTH = 10
+ADMIN_PASSWORD_MIN_LENGTH = 6
 
 
 def record_failed_mobile_login(mobile: str, window_seconds: int = 900, db=None) -> None:

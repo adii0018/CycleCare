@@ -90,5 +90,5 @@ export const customerRegistrationSchema = baseRepairFormSchema.and(
 // Admin login schema
 export const adminLoginSchema = z.object({
   mobile: mobileSchema,
-  password: z.string().min(10, 'Password must be at least 10 characters.'),
+  password: z.string().min(6, 'Password must be at least 6 characters.'),
 });

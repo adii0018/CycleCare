@@ -104,11 +104,10 @@ describe('Validators Test Suite', () => {
 
   it('validates admin login credentials schema', () => {
     expect(
-      adminLoginSchema.safeParse({ mobile: '9876543210', password: 'Short' }).success
+      adminLoginSchema.safeParse({ mobile: '9876543210', password: '12345' }).success
     ).toBe(false);
     expect(
-      adminLoginSchema.safeParse({ mobile: '9876543210', password: 'ValidPassword123' })
-        .success
+      adminLoginSchema.safeParse({ mobile: '9876543210', password: 'adii001@' }).success
     ).toBe(true);
   });
 });

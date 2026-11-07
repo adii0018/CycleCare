@@ -34,10 +34,10 @@ def test_create_admin_management_command(test_db):
     ):
         call_command("create_admin", mobile="9876543210")
 
-    # Short password rejected (< 10 chars)
+    # Short password rejected (< 6 chars)
     with (
-        patch("getpass.getpass", side_effect=["Short1!", "Short1!"]),
-        pytest.raises(CommandError, match="at least 10 characters"),
+        patch("getpass.getpass", side_effect=["short", "short"]),
+        pytest.raises(CommandError, match="at least 6 characters"),
     ):
         call_command("create_admin", mobile="9876543211")
 
