@@ -45,7 +45,7 @@ def setup_test_database():
 def clear_collections():
     """Clear collection data between tests to ensure test isolation."""
     db = get_database(TEST_DB_NAME)
-    for col in ["repairs", "photos", "counters", "rate_limits"]:
+    for col in ["repairs", "photos", "counters", "rate_limits", "admins", "admin_sessions"]:
         db[col].delete_many({})
     yield
 

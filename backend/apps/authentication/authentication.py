@@ -3,11 +3,14 @@
 import hashlib
 import logging
 from datetime import UTC
+
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.request import Request
+
 from apps.core.utils import utc_now
+
 from .models import AdminUser
 from .repository import (
     delete_session_by_token_hash,
@@ -25,6 +28,10 @@ def hash_token(raw_token: str) -> str:
 
 class AdminSessionAuthentication(BaseAuthentication):
     """Authenticate requests via an HttpOnly session cookie containing an opaque token."""
+
+    def authenticate_header(self, request: Request) -> str:
+        """Return challenge string so unauthenticated requests receive HTTP 401 instead of 403."""
+        return "Cookie"
 
     def authenticate(self, request: Request) -> tuple[AdminUser, dict] | None:
         cookie_name = getattr(settings, "SESSION_COOKIE_NAME", "cc_session")
@@ -54,7 +61,9 @@ class AdminSessionAuthentication(BaseAuthentication):
         # Verify active admin record
         admin_doc = find_admin_by_id(session["admin_id"])
         if not admin_doc or not admin_doc.get("is_active", True):
-            logger.warning("Admin %s inactive or missing; rejecting session", session.get("admin_id"))
+            logger.warning(
+                "Admin %s inactive or missing; rejecting session", session.get("admin_id")
+            )
             raise AuthenticationFailed("Admin account is inactive or disabled.")
 
         return AdminUser(admin_doc), session

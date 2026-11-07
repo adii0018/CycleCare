@@ -2,7 +2,9 @@
 
 from datetime import datetime
 from typing import Any
+
 from pymongo.database import Database
+
 from infrastructure.mongodb import get_database
 
 ADMINS_COLLECTION = "admins"

@@ -1,7 +1,9 @@
 """Django management command to interactively create a new administrator."""
 
 import getpass
+
 from django.core.management.base import BaseCommand, CommandError
+
 from apps.authentication.services import ADMIN_PASSWORD_MIN_LENGTH, create_admin_account
 
 
@@ -28,9 +30,7 @@ class Command(BaseCommand):
             raise CommandError("Passwords do not match.")
 
         if len(password) < ADMIN_PASSWORD_MIN_LENGTH:
-            raise CommandError(
-                f"Password must be at least {ADMIN_PASSWORD_MIN_LENGTH} characters."
-            )
+            raise CommandError(f"Password must be at least {ADMIN_PASSWORD_MIN_LENGTH} characters.")
 
         try:
             admin = create_admin_account(mobile=mobile, raw_password=password)

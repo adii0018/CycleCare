@@ -6,7 +6,12 @@ from typing import Any
 from django.core.exceptions import RequestDataTooBig
 from django.http import Http404, HttpResponse
 from rest_framework import status
-from rest_framework.exceptions import Throttled, ValidationError
+from rest_framework.exceptions import (
+    AuthenticationFailed,
+    NotAuthenticated,
+    Throttled,
+    ValidationError,
+)
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
 
@@ -69,6 +74,21 @@ def custom_exception_handler(exc: Exception, context: dict[str, Any]) -> HttpRes
                 message="Please correct the errors in the submitted form.",
                 status_code=status.HTTP_400_BAD_REQUEST,
                 fields=fields,
+            )
+
+        if isinstance(exc, (AuthenticationFailed, NotAuthenticated)):
+            detail_msg = "Authentication credentials were not provided or are invalid."
+            if hasattr(exc, "detail") and exc.detail:
+                detail_msg = str(exc.detail)
+            code_name = (
+                "authentication_failed"
+                if isinstance(exc, AuthenticationFailed)
+                else "not_authenticated"
+            )
+            return build_error_response(
+                code=code_name,
+                message=detail_msg,
+                status_code=status.HTTP_401_UNAUTHORIZED,
             )
 
         if isinstance(exc, Throttled):

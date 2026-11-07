@@ -12,6 +12,18 @@ ALLOWED_PROBLEM_CODES = {
     "other",
 }
 
+# Short label mapping for problem_summary construction
+PROBLEM_CODE_SHORT_NAMES = {
+    "puncture_tyre": "Puncture",
+    "brake": "Brake",
+    "chain": "Chain",
+    "gear": "Gear",
+    "pedal": "Pedal",
+    "wheel": "Wheel",
+    "general_service": "Service",
+    "other": "Other",
+}
+
 # Customer Name rules
 CUSTOMER_NAME_MIN_LENGTH = 2
 CUSTOMER_NAME_MAX_LENGTH = 60

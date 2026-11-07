@@ -4,14 +4,17 @@ import hashlib
 import logging
 import secrets
 import uuid
-from datetime import timedelta
+from datetime import UTC, timedelta
+
 from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
 from rest_framework.exceptions import AuthenticationFailed, Throttled, ValidationError
+
 from apps.core.throttling import check_rate_limit
 from apps.core.utils import utc_now
 from apps.repairs.serializers import MOBILE_PATTERN, normalize_mobile
 from infrastructure.mongodb import get_database
+
 from .authentication import hash_token
 from .repository import (
     delete_session_by_token_hash,
@@ -67,12 +70,15 @@ def check_mobile_rate_limit(mobile: str, limit: int = 5, db=None) -> None:
     if doc:
         now = utc_now()
         expires_at = doc.get("expires_at")
-        if expires_at and expires_at > now and doc.get("count", 0) >= limit:
-            retry_after = max(1, int((expires_at - now).total_seconds()))
-            raise Throttled(
-                wait=retry_after,
-                detail="Too many failed login attempts for this number. Please wait before retrying.",
-            )
+        if expires_at is not None:
+            if expires_at.tzinfo is None:
+                expires_at = expires_at.replace(tzinfo=UTC)
+            if expires_at > now and doc.get("count", 0) >= limit:
+                retry_after = max(1, int((expires_at - now).total_seconds()))
+                raise Throttled(
+                    wait=retry_after,
+                    detail="Too many failed login attempts for this number. Please wait before retrying.",
+                )
 
 
 def login_admin(
@@ -159,9 +165,7 @@ def create_admin_account(
         )
 
     if len(raw_password) < ADMIN_PASSWORD_MIN_LENGTH:
-        raise ValidationError(
-            f"Password must be at least {ADMIN_PASSWORD_MIN_LENGTH} characters."
-        )
+        raise ValidationError(f"Password must be at least {ADMIN_PASSWORD_MIN_LENGTH} characters.")
 
     existing = find_admin_by_mobile(normalized_mobile, db=db)
     if existing:
@@ -192,9 +196,7 @@ def set_admin_new_password(
         raise ValidationError(f"Admin with mobile '{normalized_mobile}' does not exist.")
 
     if len(new_password) < ADMIN_PASSWORD_MIN_LENGTH:
-        raise ValidationError(
-            f"Password must be at least {ADMIN_PASSWORD_MIN_LENGTH} characters."
-        )
+        raise ValidationError(f"Password must be at least {ADMIN_PASSWORD_MIN_LENGTH} characters.")
 
     # Update hash and revoke all sessions
     new_hash = make_password(new_password)

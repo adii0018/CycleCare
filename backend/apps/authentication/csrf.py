@@ -1,6 +1,7 @@
 """Origin/Referer and Content-Type enforcement protecting cookie-authenticated state-changing APIs."""
 
 from urllib.parse import urlparse
+
 from django.conf import settings
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import BasePermission

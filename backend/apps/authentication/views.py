@@ -6,7 +6,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from apps.core.utils import get_client_ip
+
 from .csrf import verify_request_origin
 from .serializers import AdminLoginSerializer
 from .services import login_admin, logout_admin
@@ -17,6 +19,9 @@ class LoginView(APIView):
 
     permission_classes = [AllowAny]
     authentication_classes = []  # Public: stale or corrupted cookies must never cause a 401
+
+    def get_authenticate_header(self, request: Request) -> str:
+        return "Cookie"
 
     def post(self, request: Request) -> Response:
         # Enforce Origin/CSRF protection for login

@@ -133,3 +133,9 @@ class CustomerRegistrationSerializer(serializers.Serializer):
         attrs["additional_details"] = details if details else None
 
         return attrs
+
+
+class ArchiveSerializer(serializers.Serializer):
+    """Validation serializer for archive status update."""
+
+    archived = serializers.BooleanField(required=True)
