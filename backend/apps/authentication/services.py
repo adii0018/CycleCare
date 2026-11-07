@@ -149,6 +149,7 @@ def login_admin(
 def logout_admin(raw_token: str, db=None) -> None:
     """Revoke active session token."""
     token_digest = hash_token(raw_token)
+    cache.delete(f"admin_auth:{token_digest}")
     deleted = delete_session_by_token_hash(token_digest, db=db)
     logger.info("Revoked %d admin session(s)", deleted)
 

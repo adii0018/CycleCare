@@ -3,6 +3,7 @@
 import logging
 from datetime import UTC
 
+from django.core.cache import cache
 from django.http import Http404, HttpResponse
 from rest_framework import status
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
@@ -45,6 +46,10 @@ class RepairStatsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
+        cached_stats = cache.get("repairs_stats")
+        if cached_stats is not None:
+            return Response(cached_stats, status=status.HTTP_200_OK)
+
         now = utc_now()
         start_utc, end_utc = get_ist_day_boundaries(now)
         stats_data = get_repairs_stats(
@@ -52,6 +57,7 @@ class RepairStatsView(APIView):
             today_utc_end=end_utc,
             now_utc=now,
         )
+        cache.set("repairs_stats", stats_data, timeout=60)
         return Response(stats_data, status=status.HTTP_200_OK)
 
 
@@ -79,6 +85,7 @@ class ManualRepairRegistrationView(APIView):
             validated_data=serializer.validated_data,
             photo_files=photo_files,
         )
+        cache.delete("repairs_stats")
         http_status = status.HTTP_201_CREATED if is_created else status.HTTP_200_OK
         return Response(result, status=http_status)
 
@@ -126,6 +133,7 @@ class RepairListCreateView(APIView):
             validated_data=serializer.validated_data,
             photo_files=photo_files,
         )
+        cache.delete("repairs_stats")
         http_status = status.HTTP_201_CREATED if is_created else status.HTTP_200_OK
         return Response(result, status=http_status)
 
@@ -225,6 +233,7 @@ class RepairArchiveView(APIView):
         if not res:
             raise Http404(f"Repair record '{repair_id}' does not exist.")
 
+        cache.delete("repairs_stats")
         return Response(res, status=status.HTTP_200_OK)
 
 
