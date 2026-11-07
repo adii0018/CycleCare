@@ -115,3 +115,17 @@ def test_get_photo_not_found(test_db):
     assert status == "not_found"
     assert data is None
     assert content_type is None
+
+
+def test_oversized_payload_returns_413(api_client):
+    """Oversized request payload triggering RequestDataTooBig returns friendly 413 error envelope."""
+    with patch(
+        "apps.repairs.views.CustomerRegistrationView.initial",
+        side_effect=RequestDataTooBig("Payload too large"),
+    ):
+        response = api_client.post("/api/repairs/", data={}, format="multipart")
+        assert response.status_code == status.HTTP_413_REQUEST_ENTITY_TOO_LARGE
+        data = response.json()
+        assert "error" in data
+        assert data["error"]["code"] == "payload_too_large"
+        assert "under 400 KB" in data["error"]["message"]
