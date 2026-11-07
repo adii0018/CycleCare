@@ -1,0 +1,25 @@
+{
+  "name": "CycleCare - Rajput Auto Garage",
+  "short_name": "CycleCare",
+  "description": "Bicycle repair and service management system for Rajput Auto Garage",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F4F9FF",
+  "theme_color": "#0B2A4A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

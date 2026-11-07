@@ -2,27 +2,36 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { getRepairsList } from '../services/adminRepairsApi';
 import { DEBOUNCE_SEARCH_MS } from '../lib/constants';
 
+// Fast in-memory cache for instant tab transitions
+const repairsMemoryCache = new Map();
+
 export function useRepairs({ q = '', page = 1, page_size = 20, archived = false }) {
-  const [data, setData] = useState({
-    results: [],
-    page: 1,
-    page_size: 20,
-    total: 0,
-    total_pages: 1,
-  });
-  const [loading, setLoading] = useState(true);
+  const cacheKey = `${q.trim().toLowerCase()}:${page}:${page_size}:${archived}`;
+  const cachedData = repairsMemoryCache.get(cacheKey);
+
+  const [data, setData] = useState(
+    cachedData || {
+      results: [],
+      page: 1,
+      page_size: 20,
+      total: 0,
+      total_pages: 1,
+    }
+  );
+  const [loading, setLoading] = useState(!cachedData);
   const [error, setError] = useState(null);
 
   const abortControllerRef = useRef(null);
 
   const fetchRepairs = useCallback(async () => {
-    // Abort any in-flight request so stale responses never overwrite new ones
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     abortControllerRef.current = new AbortController();
 
-    setLoading(true);
+    if (!repairsMemoryCache.has(cacheKey)) {
+      setLoading(true);
+    }
     setError(null);
 
     try {
@@ -30,20 +39,20 @@ export function useRepairs({ q = '', page = 1, page_size = 20, archived = false 
         { q, page, page_size, archived },
         { signal: abortControllerRef.current.signal }
       );
+      repairsMemoryCache.set(cacheKey, response);
       setData(response);
     } catch (err) {
       if (
         err.name === 'AbortError' ||
         (err.code === 'timeout' && abortControllerRef.current?.signal.aborted)
       ) {
-        // Request was intentionally cancelled by a newer query; ignore
         return;
       }
       setError(err.message || 'Failed to load repair records.');
     } finally {
       setLoading(false);
     }
-  }, [q, page, page_size, archived]);
+  }, [q, page, page_size, archived, cacheKey]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
