@@ -5,6 +5,7 @@ import logging
 from datetime import UTC
 
 from django.conf import settings
+from django.core.cache import cache
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.request import Request
@@ -42,6 +43,11 @@ class AdminSessionAuthentication(BaseAuthentication):
             return None
 
         token_hash = hash_token(token)
+        cache_key = f"admin_auth:{token_hash}"
+        cached_auth = cache.get(cache_key)
+        if cached_auth:
+            return AdminUser(cached_auth["admin"]), cached_auth["session"]
+
         session = find_session_by_token_hash(token_hash)
 
         if not session:
@@ -65,5 +71,8 @@ class AdminSessionAuthentication(BaseAuthentication):
                 "Admin %s inactive or missing; rejecting session", session.get("admin_id")
             )
             raise AuthenticationFailed("Admin account is inactive or disabled.")
+
+        # Cache verified auth in RAM for 120s to eliminate redundant Atlas lookups
+        cache.set(cache_key, {"admin": admin_doc, "session": session}, timeout=120)
 
         return AdminUser(admin_doc), session

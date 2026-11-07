@@ -47,6 +47,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 # No SQL Database - Django ORM completely disabled
 DATABASES = {}
 
+# In-Memory RAM Cache for high-performance session lookup & stats aggregation
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "cyclecare-in-memory",
+        "TIMEOUT": 300,
+    }
+}
+
 # Standalone Django Password Hashers (runs without django.contrib.auth)
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

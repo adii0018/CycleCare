@@ -8,6 +8,7 @@ from datetime import UTC, timedelta
 
 from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
+from django.core.cache import cache
 from rest_framework.exceptions import AuthenticationFailed, Throttled, ValidationError
 
 from apps.core.throttling import check_rate_limit

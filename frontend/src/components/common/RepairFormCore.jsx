@@ -294,7 +294,11 @@ export function RepairFormCore({
           loading={submitting}
           disabled={submitting || compressing}
         >
-          {submitButtonText}
+          {submitting
+            ? photos.length > 0
+              ? 'Uploading Photos & Submitting...'
+              : 'Recording Request...'
+            : submitButtonText}
         </Button>
       </form>
     </Card>

@@ -4,6 +4,7 @@ import { BrandHeader } from '../../components/common/BrandHeader';
 import { RepairFormCore } from '../../components/common/RepairFormCore';
 import { submitCustomerRepair } from '../../services/repairsApi';
 import { SESSION_STORAGE_KEY } from '../../lib/constants';
+import { playSuccessChime } from '../../lib/sound';
 import { toast } from 'sonner';
 
 export function RegisterPage() {
@@ -12,6 +13,9 @@ export function RegisterPage() {
   const handleCustomerSubmit = async (formData) => {
     try {
       const response = await submitCustomerRepair(formData);
+      // Play instant pleasant success chime
+      playSuccessChime();
+
       // Store ONLY non-sensitive confirmation details
       const confirmationPayload = {
         repair_id: response.repair_id,

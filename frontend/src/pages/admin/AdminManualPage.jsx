@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { RepairFormCore } from '../../components/common/RepairFormCore';
 import { submitManualRepair } from '../../services/adminRepairsApi';
+import { playSuccessChime } from '../../lib/sound';
 import { toast } from 'sonner';
 
 export function AdminManualPage() {
@@ -9,6 +10,7 @@ export function AdminManualPage() {
   const handleManualSubmit = async (formData) => {
     try {
       const response = await submitManualRepair(formData);
+      playSuccessChime();
       toast.success(`Walk-in recorded: ${response.repair_id}`);
       navigate(`/admin/repairs/${response.repair_id}`);
       return response;
