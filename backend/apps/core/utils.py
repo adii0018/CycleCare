@@ -41,5 +41,5 @@ def get_client_ip(request: HttpRequest) -> str:
     if abs(target_index) <= len(ips):
         return ips[target_index]
 
-    # If chain is shorter than expected hops, return the leftmost client IP
-    return ips[0]
+    # If chain is shorter than expected hops, safely fall back to the socket IP (REMOTE_ADDR)
+    return request.META.get("REMOTE_ADDR", "127.0.0.1")

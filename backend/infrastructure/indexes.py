@@ -61,6 +61,37 @@ def get_rate_limits_indexes() -> list[IndexModel]:
     ]
 
 
+def get_admins_indexes() -> list[IndexModel]:
+    """Define indexes for the admins collection."""
+    return [
+        IndexModel(
+            [("mobile", ASCENDING)],
+            name="idx_admins_mobile_unique",
+            unique=True,
+        ),
+    ]
+
+
+def get_admin_sessions_indexes() -> list[IndexModel]:
+    """Define indexes for the admin_sessions collection."""
+    return [
+        IndexModel(
+            [("token_hash", ASCENDING)],
+            name="idx_admin_sessions_token_hash_unique",
+            unique=True,
+        ),
+        IndexModel(
+            [("expires_at", ASCENDING)],
+            name="idx_admin_sessions_expires_at_ttl",
+            expireAfterSeconds=0,
+        ),
+        IndexModel(
+            [("admin_id", ASCENDING)],
+            name="idx_admin_sessions_admin_id",
+        ),
+    ]
+
+
 def ensure_all_indexes(db: Database | None = None) -> dict[str, list[str]]:
     """Idempotently create all defined indexes across collections.
 
@@ -73,6 +104,8 @@ def ensure_all_indexes(db: Database | None = None) -> dict[str, list[str]]:
         "repairs": get_repairs_indexes(),
         "photos": get_photos_indexes(),
         "rate_limits": get_rate_limits_indexes(),
+        "admins": get_admins_indexes(),
+        "admin_sessions": get_admin_sessions_indexes(),
     }
 
     for col_name, specs in index_specs.items():

@@ -1,9 +1,9 @@
-django==4.2.7                     # Web framework and routing without ORM
-djangorestframework==3.14.0        # Serializers, request parsers, and API views
-django-cors-headers==4.3.1        # Restrict CORS to allowed frontend origin
-pymongo==4.18.1                   # Official MongoDB driver for Atlas access
-gunicorn==26.0.0                  # Production WSGI HTTP server
-python-dotenv==1.0.0              # Loads environment variables from .env
-pytest==9.1.1                     # Test runner framework
+django==6.1.3                     # Web framework and routing without ORM
+djangorestframework==3.18.3        # Serializers, request parsers, and API views
+django-cors-headers==4.9.0         # Restrict CORS to allowed frontend origin
+pymongo==4.19.0                   # Official MongoDB driver for Atlas access
+gunicorn==26.2.0                  # Production WSGI HTTP server
+python-dotenv==1.2.4              # Loads environment variables from .env
+pytest==9.2.0                     # Test runner framework
 pytest-django==4.14.0             # Pytest integration with Django settings and test client
 ruff==0.17.4                      # Fast linter and code formatter

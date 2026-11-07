@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "apps.core",
+    "apps.authentication",
     "apps.repairs",
 ]
 
@@ -46,6 +47,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 # No SQL Database - Django ORM completely disabled
 DATABASES = {}
 
+# Standalone Django Password Hashers (runs without django.contrib.auth)
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+]
+
 # Internationalization
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
@@ -54,12 +60,14 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-# REST Framework Configuration
+# REST Framework Configuration (Deny-by-default permission)
 REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": None,
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "apps.authentication.authentication.AdminSessionAuthentication",
+    ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "EXCEPTION_HANDLER": "apps.core.exceptions.custom_exception_handler",
 }
@@ -79,6 +87,14 @@ PHOTO_ALLOWED_TYPES = {
 }
 PHOTO_RETENTION_DAYS = 30
 
+# Admin Session & Cookie Configuration
+SESSION_COOKIE_NAME = os.getenv("SESSION_COOKIE_NAME", "cc_session")
+SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "False").lower() in ("true", "1")
+SESSION_COOKIE_SAMESITE = os.getenv("SESSION_COOKIE_SAMESITE", "Lax")
+SESSION_COOKIE_DOMAIN = os.getenv("SESSION_COOKIE_DOMAIN", None) or None
+SESSION_COOKIE_PATH = "/api"
+ADMIN_SESSION_DAYS = int(os.getenv("ADMIN_SESSION_DAYS", "14"))
+
 # MongoDB Configuration
 MONGODB_URI = os.getenv("MONGODB_URI", "")
 MONGODB_DATABASE = os.getenv("MONGODB_DATABASE", "cyclecare")
@@ -91,6 +107,8 @@ TRUSTED_PROXY_HOPS = int(os.getenv("TRUSTED_PROXY_HOPS", "1"))
 
 # Rate Limiting Settings
 RATE_LIMIT_REGISTER_PER_10MIN = int(os.getenv("RATE_LIMIT_REGISTER_PER_10MIN", "10"))
+RATE_LIMIT_LOGIN_IP_PER_15MIN = int(os.getenv("RATE_LIMIT_LOGIN_IP_PER_15MIN", "10"))
+RATE_LIMIT_LOGIN_MOBILE_PER_15MIN = int(os.getenv("RATE_LIMIT_LOGIN_MOBILE_PER_15MIN", "5"))
 
 # CORS Configuration
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
