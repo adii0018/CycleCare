@@ -7,7 +7,7 @@ import { useWarmup } from './hooks/useWarmup';
 
 export default function App() {
   // Silent health check warming up free-tier backend; exposes ready boolean for future preloader
-  const { ready } = useWarmup();
+  const { ready: _ready } = useWarmup();
 
   return (
     <LazyMotion features={domAnimation}>

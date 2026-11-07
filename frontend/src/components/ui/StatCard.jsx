@@ -16,7 +16,9 @@ export function StatCard({ label, value, icon: Icon, loading = false, className 
         {loading ? (
           <Skeleton className="h-8 w-16 mt-1" />
         ) : (
-          <p className="text-2xl font-bold text-brand-navy tracking-tight">{value ?? 0}</p>
+          <p className="text-2xl font-bold text-brand-navy tracking-tight">
+            {value ?? 0}
+          </p>
         )}
       </div>
     </Card>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input, Label, FieldError, Textarea } from '../ui/Input';
@@ -115,7 +115,9 @@ export function RepairFormCore({
         });
       }
 
-      setFormError(err.message || 'Submission failed. Please check your inputs and try again.');
+      setFormError(
+        err.message || 'Submission failed. Please check your inputs and try again.'
+      );
     } finally {
       clearTimeout(warmupTimer);
       setSubmitting(false);

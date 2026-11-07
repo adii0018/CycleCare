@@ -18,10 +18,7 @@ export function RegisterPage() {
         customer_name: response.customer_name,
         received_at: response.received_at,
       };
-      sessionStorage.setItem(
-        SESSION_STORAGE_KEY,
-        JSON.stringify(confirmationPayload)
-      );
+      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(confirmationPayload));
 
       toast.success('Bicycle registered successfully!');
       navigate('/confirmation');

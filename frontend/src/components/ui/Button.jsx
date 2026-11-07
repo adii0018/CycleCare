@@ -18,16 +18,14 @@ export const Button = forwardRef(function Button(
     'inline-flex items-center justify-center font-medium rounded-xl transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none';
 
   const variants = {
-    primary:
-      'bg-brand-navy text-white hover:bg-[#071D33] active:bg-[#051424] shadow-sm',
+    primary: 'bg-brand-navy text-white hover:bg-[#071D33] active:bg-[#051424] shadow-sm',
     secondary:
       'bg-brand-bg-secondary text-brand-navy border border-brand-border hover:bg-[#DDE9FF] active:bg-[#CFE0FF]',
     outline:
       'border border-brand-border bg-transparent text-brand-navy hover:bg-brand-bg-secondary active:bg-[#DDE9FF]',
     ghost:
       'bg-transparent text-brand-navy hover:bg-brand-bg-secondary active:bg-[#DDE9FF]',
-    danger:
-      'bg-brand-error text-white hover:bg-red-700 active:bg-red-800 shadow-sm',
+    danger: 'bg-brand-error text-white hover:bg-red-700 active:bg-red-800 shadow-sm',
   };
 
   const sizes = {

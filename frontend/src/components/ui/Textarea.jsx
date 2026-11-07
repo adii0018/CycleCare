@@ -1,16 +1,7 @@
 import { forwardRef } from 'react';
 
 export const Textarea = forwardRef(function Textarea(
-  {
-    error,
-    className = '',
-    id,
-    rows = 3,
-    disabled = false,
-    maxLength,
-    value,
-    ...props
-  },
+  { error, className = '', id, rows = 3, disabled = false, maxLength, value, ...props },
   ref
 ) {
   const hasError = Boolean(error);

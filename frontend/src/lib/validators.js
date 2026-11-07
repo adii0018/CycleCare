@@ -3,8 +3,8 @@ import { REPAIR_PROBLEMS } from './constants';
 
 const VALID_PROBLEM_CODES = REPAIR_PROBLEMS.map((p) => p.code);
 
-// Allows English letters, spaces, dots, hyphens, apostrophes, and Hindi Devanagari Unicode (\u0900-\u097F)
-const NAME_REGEX = /^[A-Za-z\u0900-\u097F\s.'-]+$/;
+// Allows English letters, spaces, dots, hyphens, apostrophes, and Hindi Devanagari script (\p{sc=Devanagari})
+const NAME_REGEX = /^[A-Za-z\p{sc=Devanagari}\s.'-]+$/u;
 
 export function normalizeMobileInput(raw) {
   if (!raw) return '';
@@ -25,7 +25,7 @@ export const customerNameSchema = z
   .trim()
   .min(2, 'Name must be at least 2 characters.')
   .max(60, 'Name cannot exceed 60 characters.')
-  .regex(NAME_REGEX, 'Name can only contain letters, spaces, and . - \'');
+  .regex(NAME_REGEX, "Name can only contain letters, spaces, and . - '");
 
 export const mobileSchema = z
   .string()
@@ -35,7 +35,10 @@ export const mobileSchema = z
     z
       .string()
       .length(10, 'Mobile number must be exactly 10 digits.')
-      .regex(/^[6-9]\d{9}$/, 'Please enter a valid Indian mobile number starting with 6, 7, 8, or 9.')
+      .regex(
+        /^[6-9]\d{9}$/,
+        'Please enter a valid Indian mobile number starting with 6, 7, 8, or 9.'
+      )
   );
 
 export const repairProblemsSchema = z
@@ -52,8 +55,16 @@ export const baseRepairFormSchema = z
     customer_name: customerNameSchema,
     mobile: mobileSchema,
     repair_problems: repairProblemsSchema,
-    other_problem_text: z.string().max(200, 'Cannot exceed 200 characters.').optional().default(''),
-    additional_details: z.string().max(500, 'Cannot exceed 500 characters.').optional().default(''),
+    other_problem_text: z
+      .string()
+      .max(200, 'Cannot exceed 200 characters.')
+      .optional()
+      .default(''),
+    additional_details: z
+      .string()
+      .max(500, 'Cannot exceed 500 characters.')
+      .optional()
+      .default(''),
     idempotency_key: z.string().min(1, 'Idempotency key required.'),
   })
   .superRefine((data, ctx) => {

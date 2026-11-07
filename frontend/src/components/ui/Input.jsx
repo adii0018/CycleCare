@@ -12,7 +12,11 @@ export const Label = forwardRef(function Label(
       {...props}
     >
       {children}
-      {required && <span className="text-brand-error ml-1" aria-hidden="true">*</span>}
+      {required && (
+        <span className="text-brand-error ml-1" aria-hidden="true">
+          *
+        </span>
+      )}
     </label>
   );
 });
@@ -35,15 +39,7 @@ export const FieldError = forwardRef(function FieldError(
 });
 
 export const Input = forwardRef(function Input(
-  {
-    error,
-    prefixText,
-    type = 'text',
-    className = '',
-    id,
-    disabled = false,
-    ...props
-  },
+  { error, prefixText, type = 'text', className = '', id, disabled = false, ...props },
   ref
 ) {
   const hasError = Boolean(error);
@@ -75,16 +71,7 @@ export const Input = forwardRef(function Input(
 });
 
 export const Textarea = forwardRef(function Textarea(
-  {
-    error,
-    className = '',
-    id,
-    rows = 3,
-    disabled = false,
-    maxLength,
-    value,
-    ...props
-  },
+  { error, className = '', id, rows = 3, disabled = false, maxLength, value, ...props },
   ref
 ) {
   const hasError = Boolean(error);

@@ -118,9 +118,7 @@ describe('Admin Authentication & Protected Routes', () => {
     fireEvent.click(screen.getByRole('button', { name: /Sign In to Admin/i }));
 
     await waitFor(() => {
-      expect(
-        screen.getByText(/Invalid mobile number or password/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Invalid mobile number or password/i)).toBeInTheDocument();
     });
   });
 

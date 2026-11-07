@@ -35,9 +35,7 @@ describe('Submit Flow & Error Mapping', () => {
     });
     fireEvent.click(screen.getByRole('checkbox', { name: /Brake/i }));
 
-    fireEvent.click(
-      screen.getByRole('button', { name: /Submit Repair Request/i })
-    );
+    fireEvent.click(screen.getByRole('button', { name: /Submit Repair Request/i }));
 
     await waitFor(() => {
       const stored = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEY));
@@ -53,7 +51,9 @@ describe('Submit Flow & Error Mapping', () => {
   });
 
   it('keeps form data and the SAME idempotency key when network error occurs', async () => {
-    const networkErr = new Error('Could not reach the server. Check your internet and try again.');
+    const networkErr = new Error(
+      'Could not reach the server. Check your internet and try again.'
+    );
     networkErr.status = 0;
     networkErr.code = 'network_error';
 
@@ -83,9 +83,7 @@ describe('Submit Flow & Error Mapping', () => {
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        /Could not reach the server/i
-      );
+      expect(screen.getByRole('alert')).toHaveTextContent(/Could not reach the server/i);
     });
 
     // Form inputs must remain preserved

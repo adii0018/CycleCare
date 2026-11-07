@@ -17,7 +17,7 @@ export function AdminRepairsPage({ isArchiveView = false }) {
   const q = searchParams.get('q') || '';
   const page = parseInt(searchParams.get('page') || '1', 10);
 
-  const { repairs, total, totalPages, loading, error, refetch } = useRepairs({
+  const { repairs, totalPages, loading, error, refetch } = useRepairs({
     q,
     page,
     page_size: 20,
@@ -47,11 +47,7 @@ export function AdminRepairsPage({ isArchiveView = false }) {
       return <Badge variant="neutral">No photos</Badge>;
     }
     if (repair.has_active_photos) {
-      return (
-        <Badge variant="primary">
-          Photos ({repair.photo_count})
-        </Badge>
-      );
+      return <Badge variant="primary">Photos ({repair.photo_count})</Badge>;
     }
     return <Badge variant="warning">Photo Expired</Badge>;
   };
@@ -186,7 +182,8 @@ export function AdminRepairsPage({ isArchiveView = false }) {
                     key={repair.repair_id}
                     onClick={() => navigate(`/admin/repairs/${repair.repair_id}`)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter') navigate(`/admin/repairs/${repair.repair_id}`);
+                      if (e.key === 'Enter')
+                        navigate(`/admin/repairs/${repair.repair_id}`);
                     }}
                     tabIndex={0}
                     className="hover:bg-brand-bg-secondary/40 cursor-pointer transition-colors focus:outline-none focus:bg-brand-bg-secondary/50"

@@ -11,16 +11,17 @@ export function useImagePicker() {
   const urlsRef = useRef(new Set());
 
   useEffect(() => {
+    const urls = urlsRef.current;
     return () => {
       // Revoke all active object URLs on unmount to prevent memory leaks
-      urlsRef.current.forEach((url) => {
+      urls.forEach((url) => {
         try {
           URL.revokeObjectURL(url);
         } catch {
           // Ignore
         }
       });
-      urlsRef.current.clear();
+      urls.clear();
     };
   }, []);
 

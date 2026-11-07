@@ -1,9 +1,5 @@
 import imageCompression from 'browser-image-compression';
-import {
-  MAX_PHOTO_BYTES,
-  COMPRESS_TARGET_SIZE_MB,
-  COMPRESS_MAX_SIDE,
-} from './constants';
+import { MAX_PHOTO_BYTES, COMPRESS_TARGET_SIZE_MB, COMPRESS_MAX_SIDE } from './constants';
 
 export async function compressPhoto(file) {
   // Reject non-image files
@@ -35,7 +31,9 @@ export async function compressPhoto(file) {
 
   // Final check: Never return a file that exceeds the backend 400 KB cap
   if (compressed.size > MAX_PHOTO_BYTES) {
-    throw new Error('Photo could not be compressed under 400 KB. Please choose another image.');
+    throw new Error(
+      'Photo could not be compressed under 400 KB. Please choose another image.'
+    );
   }
 
   return compressed;

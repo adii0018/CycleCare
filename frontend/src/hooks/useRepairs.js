@@ -32,7 +32,10 @@ export function useRepairs({ q = '', page = 1, page_size = 20, archived = false 
       );
       setData(response);
     } catch (err) {
-      if (err.name === 'AbortError' || err.code === 'timeout' && abortControllerRef.current?.signal.aborted) {
+      if (
+        err.name === 'AbortError' ||
+        (err.code === 'timeout' && abortControllerRef.current?.signal.aborted)
+      ) {
         // Request was intentionally cancelled by a newer query; ignore
         return;
       }

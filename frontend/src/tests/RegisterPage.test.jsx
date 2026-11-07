@@ -29,9 +29,7 @@ describe('RegisterPage Component Tests', () => {
     renderRegister();
 
     // Initially Other text field is not in the DOM
-    expect(
-      screen.queryByLabelText(/Describe Other Problem/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Describe Other Problem/i)).not.toBeInTheDocument();
 
     // Tap "Other" chip
     const otherChip = screen.getByRole('checkbox', { name: /Other/i });
@@ -39,9 +37,7 @@ describe('RegisterPage Component Tests', () => {
 
     // Other text field appears
     await waitFor(() => {
-      expect(
-        screen.getByLabelText(/Describe Other Problem/i)
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText(/Describe Other Problem/i)).toBeInTheDocument();
     });
   });
 
@@ -58,9 +54,7 @@ describe('RegisterPage Component Tests', () => {
       expect(
         screen.getByText(/Mobile number must be exactly 10 digits/i)
       ).toBeInTheDocument();
-      expect(
-        screen.getByText(/Please select at least one problem/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Please select at least one problem/i)).toBeInTheDocument();
     });
   });
 
@@ -69,9 +63,7 @@ describe('RegisterPage Component Tests', () => {
     const submitPromise = new Promise((resolve) => {
       resolveSubmit = resolve;
     });
-    vi.spyOn(repairsApi, 'submitCustomerRepair').mockImplementation(
-      () => submitPromise
-    );
+    vi.spyOn(repairsApi, 'submitCustomerRepair').mockImplementation(() => submitPromise);
 
     renderRegister();
 

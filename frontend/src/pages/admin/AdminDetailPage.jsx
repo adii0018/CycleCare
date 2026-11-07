@@ -4,9 +4,6 @@ import {
   ArrowLeft,
   Phone,
   Calendar,
-  User,
-  Wrench,
-  FileText,
   Archive,
   RotateCcw,
   ImageOff,
@@ -39,7 +36,8 @@ export function AdminDetailPage() {
       <Card className="max-w-md mx-auto text-center p-8 space-y-4">
         <h2 className="text-xl font-bold text-brand-navy">Record Not Found</h2>
         <p className="text-sm text-brand-muted">
-          No repair record exists with ID <span className="font-mono font-bold">{repairId}</span>.
+          No repair record exists with ID{' '}
+          <span className="font-mono font-bold">{repairId}</span>.
         </p>
         <Button variant="primary" onClick={() => navigate('/admin/repairs')}>
           Back to Records List
@@ -61,7 +59,9 @@ export function AdminDetailPage() {
   if (error || !repair) {
     return (
       <Card className="max-w-md mx-auto text-center p-6 space-y-3">
-        <p className="text-brand-error text-sm font-medium">{error || 'Failed to load record'}</p>
+        <p className="text-brand-error text-sm font-medium">
+          {error || 'Failed to load record'}
+        </p>
         <Button variant="outline" size="sm" onClick={() => navigate('/admin/repairs')}>
           Back to Records List
         </Button>
@@ -104,7 +104,9 @@ export function AdminDetailPage() {
           variant={repair.archived ? 'outline' : 'ghost'}
           size="sm"
           onClick={() => setConfirmOpen(true)}
-          className={repair.archived ? 'text-brand-navy' : 'text-brand-error hover:bg-red-50'}
+          className={
+            repair.archived ? 'text-brand-navy' : 'text-brand-error hover:bg-red-50'
+          }
         >
           {repair.archived ? (
             <>
@@ -272,7 +274,9 @@ export function AdminDetailPage() {
         isOpen={confirmOpen}
         onClose={() => setConfirmOpen(false)}
         onConfirm={handleArchiveToggle}
-        title={repair.archived ? 'Restore this repair record?' : 'Archive this repair record?'}
+        title={
+          repair.archived ? 'Restore this repair record?' : 'Archive this repair record?'
+        }
         message={
           repair.archived
             ? 'This record will be moved back to the active records list.'

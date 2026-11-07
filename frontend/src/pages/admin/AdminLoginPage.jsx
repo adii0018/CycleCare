@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff, Lock, Phone } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { CustomerLayout } from '../../components/layout/CustomerLayout';
 import { BrandHeader } from '../../components/common/BrandHeader';
 import { Card } from '../../components/ui/Card';
@@ -93,7 +93,9 @@ export function AdminLoginPage() {
                   autoComplete="current-password"
                   placeholder="Enter your password"
                   className={`w-full min-h-[48px] px-4 pr-12 text-base bg-white text-brand-navy rounded-xl border transition-colors duration-150 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-ring focus:border-brand-navy ${
-                    errors.password ? 'border-brand-error focus:ring-red-400' : 'border-brand-border'
+                    errors.password
+                      ? 'border-brand-error focus:ring-red-400'
+                      : 'border-brand-border'
                   }`}
                   {...register('password')}
                 />

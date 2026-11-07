@@ -69,7 +69,9 @@ export function ImageUploader({
             {compressing ? (
               <div className="flex flex-col items-center gap-1">
                 <Spinner size="sm" className="text-brand-navy" />
-                <span className="text-[11px] font-medium text-brand-navy">Compressing...</span>
+                <span className="text-[11px] font-medium text-brand-navy">
+                  Compressing...
+                </span>
               </div>
             ) : (
               <>
@@ -94,8 +96,8 @@ export function ImageUploader({
       )}
 
       <p className="text-xs text-brand-muted">
-        Optional: Upload up to {MAX_PHOTOS} photos of your bicycle (JPG, PNG, WebP). Photos are
-        automatically compressed under 400 KB and deleted after 30 days.
+        Optional: Upload up to {MAX_PHOTOS} photos of your bicycle (JPG, PNG, WebP).
+        Photos are automatically compressed under 400 KB and deleted after 30 days.
       </p>
     </div>
   );

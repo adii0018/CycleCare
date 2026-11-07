@@ -12,7 +12,9 @@ const AdminLoginPage = lazy(() =>
   import('../pages/admin/AdminLoginPage').then((m) => ({ default: m.AdminLoginPage }))
 );
 const AdminOverviewPage = lazy(() =>
-  import('../pages/admin/AdminOverviewPage').then((m) => ({ default: m.AdminOverviewPage }))
+  import('../pages/admin/AdminOverviewPage').then((m) => ({
+    default: m.AdminOverviewPage,
+  }))
 );
 const AdminRepairsPage = lazy(() =>
   import('../pages/admin/AdminRepairsPage').then((m) => ({ default: m.AdminRepairsPage }))
@@ -27,7 +29,9 @@ const AdminArchivePage = lazy(() =>
   import('../pages/admin/AdminArchivePage').then((m) => ({ default: m.AdminArchivePage }))
 );
 const AdminNotFoundPage = lazy(() =>
-  import('../pages/admin/AdminNotFoundPage').then((m) => ({ default: m.AdminNotFoundPage }))
+  import('../pages/admin/AdminNotFoundPage').then((m) => ({
+    default: m.AdminNotFoundPage,
+  }))
 );
 
 function AdminSuspense({ children }) {

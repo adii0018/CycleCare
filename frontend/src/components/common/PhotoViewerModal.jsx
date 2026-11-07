@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import { X } from 'lucide-react';
 
-export function PhotoViewerModal({ isOpen, onClose, photoUrl, altText = 'Bicycle photo' }) {
+export function PhotoViewerModal({
+  isOpen,
+  onClose,
+  photoUrl,
+  altText = 'Bicycle photo',
+}) {
   useEffect(() => {
     if (!isOpen) return;
 

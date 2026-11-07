@@ -9,7 +9,9 @@ export function EmptyState({ icon: Icon, title, description, action, className =
         </div>
       )}
       <h3 className="text-base font-bold text-brand-navy mb-1">{title}</h3>
-      {description && <p className="text-sm text-brand-muted max-w-sm mb-4">{description}</p>}
+      {description && (
+        <p className="text-sm text-brand-muted max-w-sm mb-4">{description}</p>
+      )}
       {action && <div>{action}</div>}
     </div>
   );

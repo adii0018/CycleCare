@@ -13,17 +13,21 @@ import { StatCard } from '../../components/ui/StatCard';
 import { SearchBar } from '../../components/ui/SearchBar';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Badge } from '../../components/ui/Badge';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { useStats } from '../../hooks/useStats';
 import { useRepairs } from '../../hooks/useRepairs';
-import { formatISTDate, formatMobileDisplay } from '../../lib/formatters';
+import { formatISTDate } from '../../lib/formatters';
 
 export function AdminOverviewPage() {
   const navigate = useNavigate();
   const [searchVal, setSearchVal] = useState('');
 
-  const { stats, loading: statsLoading, error: statsError, refetch: refetchStats } = useStats();
+  const {
+    stats,
+    loading: statsLoading,
+    error: statsError,
+    refetch: refetchStats,
+  } = useStats();
   const { repairs, loading: repairsLoading } = useRepairs({ page: 1, page_size: 5 });
 
   const handleSearchSubmit = (e) => {

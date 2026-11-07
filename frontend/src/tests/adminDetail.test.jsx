@@ -21,7 +21,11 @@ describe('Admin Repair Detail Page', () => {
     archived: false,
     archived_at: null,
     photos: [
-      { id: 'photo-1', url: '/api/repairs/CC-2026-00001/photos/photo-1/', expired: false },
+      {
+        id: 'photo-1',
+        url: '/api/repairs/CC-2026-00001/photos/photo-1/',
+        expired: false,
+      },
       { id: 'photo-2', url: '/api/repairs/CC-2026-00001/photos/photo-2/', expired: true },
     ],
   };
